@@ -29,8 +29,7 @@ namespace azurefn
             var response1 = await client.GetAsync("https://google.com/");
             DependencyTelemetry dependencyTelemetry = new DependencyTelemetry();
             telemetryClient.TrackDependency("NachiHttpClient", "NachiGoogle", new System.DateTimeOffset(System.DateTime.Now), new System.TimeSpan(0, 0, 0, 0, 10), true);
-
-
+          
             var response = req.CreateResponse(HttpStatusCode.OK);
             response.Headers.Add("Content-Type", "text/plain; charset=utf-8");
 
