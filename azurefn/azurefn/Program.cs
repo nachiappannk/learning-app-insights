@@ -1,4 +1,5 @@
 using Microsoft.ApplicationInsights;
+using Microsoft.ApplicationInsights.Channel;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.Azure.Functions.Worker.Configuration;
 using Microsoft.Extensions.Configuration;
@@ -18,6 +19,7 @@ namespace azurefn
                 .ConfigureFunctionsWorkerDefaults()
                 .ConfigureServices(services => {
                     TelemetryConfiguration telemetryConfig = TelemetryConfiguration.CreateDefault();
+                    telemetryConfig.TelemetryInitializers.Add(new CloudRoleNameTelemetryInitializer());
                     telemetryConfig.InstrumentationKey = GetEnvironmentVariable("InstrumentationKey");
                     TelemetryClient telemetryClient = new TelemetryClient(telemetryConfig);
                     var logger = new LoggerConfiguration()
@@ -29,6 +31,8 @@ namespace azurefn
                    .CreateLogger();
                     services.AddLogging(lb => lb.AddSerilog(logger));
                     services.AddSingleton<TelemetryClient>(telemetryClient);
+                    //services.AddSingleton<ITelemetryInitializer, CloudRoleNameTelemetryInitializer>();
+                    
                 })
                 .Build();
 
@@ -37,6 +41,15 @@ namespace azurefn
         private static string GetEnvironmentVariable(string name)
         {
             return Environment.GetEnvironmentVariable(name, EnvironmentVariableTarget.Process);
+        }
+    }
+
+    public class CloudRoleNameTelemetryInitializer : ITelemetryInitializer
+    {
+        public void Initialize(ITelemetry telemetry)
+        {
+            // set custom role name here
+            telemetry.Context.Cloud.RoleName = "newnachiazurefn";
         }
     }
 }

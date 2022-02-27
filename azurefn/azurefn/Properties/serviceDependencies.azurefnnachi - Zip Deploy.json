@@ -4,12 +4,6 @@
       "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Storage/storageAccounts/azurefn20220227132039sto",
       "type": "storage.azure",
       "connectionId": "AzureWebJobsStorage"
-    },
-    "appInsights1": {
-      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourcegroups/[parameters('resourceGroupName')]/providers/Microsoft.Insights/components/appinsightsmain",
-      "type": "appInsights.azure",
-      "connectionId": "APPINSIGHTS_CONNECTIONSTRING",
-      "secretStore": "AzureAppSettings"
     }
   }
 }
