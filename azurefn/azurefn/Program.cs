@@ -23,6 +23,7 @@ namespace azurefn
                     var logger = new LoggerConfiguration()
                         .Enrich.WithProperty("applicationName", "FirstAzureFn")
                         .Enrich.WithProperty("Location", "USEast")
+                   .WriteTo.File("log.txt", rollingInterval: RollingInterval.Day)
                    .WriteTo.Console()
                    .WriteTo.ApplicationInsights(telemetryClient, TelemetryConverter.Traces)
                    .CreateLogger();
