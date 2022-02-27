@@ -1,3 +1,5 @@
+using Microsoft.ApplicationInsights;
+using Microsoft.ApplicationInsights.DataContracts;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
@@ -7,10 +9,17 @@ using System.Threading.Tasks;
 
 namespace azurefn
 {
-    public static class Function1
+    public class Function1
     {
+        private readonly TelemetryClient telemetryClient;
+
+        public Function1(TelemetryClient telemetryClient)
+        {
+            this.telemetryClient = telemetryClient;
+        }
+
         [Function("Function1")]
-        public static async Task<HttpResponseData> Run([HttpTrigger(AuthorizationLevel.Function, "get", "post")] HttpRequestData req,
+        public async Task<HttpResponseData> Run([HttpTrigger(AuthorizationLevel.Function, "get", "post")] HttpRequestData req,
             FunctionContext executionContext)
         {
             var logger = executionContext.GetLogger("Function1");
@@ -18,7 +27,9 @@ namespace azurefn
 
             HttpClient client = new HttpClient();
             var response1 = await client.GetAsync("https://google.com/");
-            
+            DependencyTelemetry dependencyTelemetry = new DependencyTelemetry();
+            telemetryClient.TrackDependency("NachiHttpClient", "NachiGoogle", new System.DateTimeOffset(System.DateTime.Now), new System.TimeSpan(0, 0, 0, 0, 10), true);
+
 
             var response = req.CreateResponse(HttpStatusCode.OK);
             response.Headers.Add("Content-Type", "text/plain; charset=utf-8");
