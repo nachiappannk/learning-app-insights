@@ -1,5 +1,6 @@
 using Microsoft.ApplicationInsights;
 using Microsoft.ApplicationInsights.Channel;
+using Microsoft.ApplicationInsights.DataContracts;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.Azure.Functions.Worker.Configuration;
 using Microsoft.Extensions.Configuration;
@@ -50,6 +51,10 @@ namespace azurefn
         {
             // set custom role name here
             telemetry.Context.Cloud.RoleName = "newnachiazurefn";
+            var requestTelemetry = telemetry as DependencyTelemetry;
+            if (requestTelemetry == null) return;
+            requestTelemetry.Properties.Add("LoggedInUserName", "DummyUser");
+
         }
     }
 }
