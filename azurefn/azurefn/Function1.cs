@@ -3,6 +3,7 @@ using Microsoft.ApplicationInsights.DataContracts;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -31,7 +32,17 @@ namespace azurefn
             telemetryClient.TrackDependency("NachiHttpClient", "NachiGoogle", new System.DateTimeOffset(System.DateTime.Now), new System.TimeSpan(0, 0, 0, 0, 10), true);
             //todo modify this
 
-            //todo throw exception once in a while to understand
+            Random rnd = new Random();
+            var randNumber = rnd.Next(0, 100);
+            if (randNumber < 12) 
+            {
+                throw new ApplicationException("some application exception");
+            }
+            if (randNumber < 20)
+            {
+                throw new Exception("some exception");
+            }
+
 
             var response = req.CreateResponse(HttpStatusCode.OK);
             response.Headers.Add("Content-Type", "text/plain; charset=utf-8");
