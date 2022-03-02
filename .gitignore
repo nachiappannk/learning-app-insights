@@ -1,1 +1,4 @@
 azurefn/.vs/
+aspnetcoreserver/.vs/
+aspnetcoreserver/aspnetcoreserver/bin/
+aspnetcoreserver/aspnetcoreserver/obj/
