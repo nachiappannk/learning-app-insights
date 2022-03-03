@@ -5,6 +5,6 @@
   </PropertyGroup>
   <PropertyGroup>
     <ActiveDebugProfile>aspnetcoreserver</ActiveDebugProfile>
-    <NameOfLastUsedPublishProfile>D:\vsc\learning-app-insights\aspnetcoreserver\aspnetcoreserver\Properties\PublishProfiles\aspnetcoreserver1 - Zip Deploy.pubxml</NameOfLastUsedPublishProfile>
+    <NameOfLastUsedPublishProfile>D:\vsc\learning-app-insights\aspnetcoreserver\aspnetcoreserver\Properties\PublishProfiles\aspnetcoreserver1 - Zip Deploy1.pubxml</NameOfLastUsedPublishProfile>
   </PropertyGroup>
 </Project>
