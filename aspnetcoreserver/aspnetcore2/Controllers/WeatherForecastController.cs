@@ -6,7 +6,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace aspnetcoreserver.Controllers
+namespace aspnetcore2.Controllers
 {
     [ApiController]
     [Route("[controller]")]
@@ -26,34 +26,43 @@ namespace aspnetcoreserver.Controllers
             _httpClient = httpClient;
         }
 
+        [HttpGet("hello")]
+        public async Task<string> NewController() 
+        {
+            Random rnd = new Random();
+            var randNumber = rnd.Next(100, 1000);
+            await Task.Delay(randNumber);
+            return "hello";
+        }
+
+
         [HttpGet]
         public async Task<IEnumerable<WeatherForecast>> Get()
         {
-            _logger.LogWarning("Yeah I have logged 1 1 1");
 
-        
+            _logger.LogWarning("### Yeah I have logged 1 1 1");
 
             foreach (var header in Request.Headers)
             {
-                _logger.LogWarning($"The header values are {header.Key}-{header.Value.ToString()}");
+                _logger.LogWarning($"### The header values are {header.Key}-{header.Value.ToString()}");
             }
+            int i = 0;
+
             Random rnd = new Random();
             var randNumber = rnd.Next(0, 100);
             if (randNumber < 12)
             {
-                throw new ApplicationException("@@@some application exception");
+                throw new ApplicationException("### some application exception");
             }
+
+            await _httpClient.GetAsync("https://aspnetcoreserver1.azurewebsites.net/WeatherForecast");
+
             
-
-            await _httpClient.GetAsync("https://www.google.com/");
-
-
-            await _httpClient.GetAsync("https://aspnetcore2nachi.azurewebsites.net/WeatherForecast/hello");
-
             if (randNumber < 20)
             {
-                throw new Exception("@@@some exception");
+                throw new Exception("### some exception");
             }
+
 
             var rng = new Random();
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
