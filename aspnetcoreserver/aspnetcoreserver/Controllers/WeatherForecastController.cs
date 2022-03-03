@@ -48,7 +48,7 @@ namespace aspnetcoreserver.Controllers
             await _httpClient.GetAsync("https://www.google.com/");
 
 
-            await _httpClient.GetAsync("https://aspnetcore2nachi.azurewebsites.net/WeatherForecast/hello");
+            await _httpClient.GetAsync("https://aspnetcore2nachi.azurewebsites.net/WeatherForecast/permissions");
 
             if (randNumber < 20)
             {
