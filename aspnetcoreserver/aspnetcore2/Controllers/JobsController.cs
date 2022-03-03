@@ -61,7 +61,7 @@ namespace aspnetcore2.Controllers
                 throw new Exception("### some exception");
             }
 
-            var response = await _httpClient.GetAsync("https://aspnetcoreserver1.azurewebsites.net/WeatherForecast");
+            var response = await _httpClient.GetAsync("https://aspnetcoreserver1.azurewebsites.net/api/v2/subjobs");
             if (response.StatusCode != System.Net.HttpStatusCode.OK) {
                 throw new NotSupportedException("Dependency failed");
             }
