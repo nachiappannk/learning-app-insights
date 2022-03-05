@@ -33,11 +33,11 @@ namespace aspnetcoreserver.Controllers
             
             var randNumber = rnd.Next(0, 100);
             _logger.LogWarning($"Random number is {randNumber}");
-            if (randNumber < 12)
+            if (randNumber < 6)
             {
                 throw new ApplicationException("@@@some application exception");
             }
-            if (randNumber < 20)
+            if (randNumber < 10)
             {
                 throw new Exception("@@@some exception");
             }

@@ -29,11 +29,11 @@ namespace aspnetcore2.Controllers
             var randNumber = rnd.Next(100, 1000);
             _logger.LogInformation($"The random number is {randNumber}");
             await Task.Delay(randNumber);
-            if (randNumber < 12)
+            if (randNumber < 160)
             {
                 throw new NotImplementedException("@99 some application exception");
             }
-            if (randNumber < 20)
+            if (randNumber < 190)
             {
                 throw new ArrayTypeMismatchException("@99 some exception");
             }
@@ -52,11 +52,11 @@ namespace aspnetcore2.Controllers
 
             Random rnd = new Random();
             var randNumber = rnd.Next(0, 100);
-            if (randNumber < 12)
+            if (randNumber < 6)
             {
                 throw new ApplicationException("### some application exception");
             }
-            if (randNumber < 20)
+            if (randNumber < 10)
             {
                 throw new Exception("### some exception");
             }
@@ -68,4 +68,20 @@ namespace aspnetcore2.Controllers
             return "jobs";
         }
     }
+
+    public class SomeService
+    {
+        private readonly ILogger<SomeService> logger;
+
+        public SomeService(ILogger<SomeService> logger)
+        {
+            this.logger = logger;
+        }
+
+        public void SomeMethod()
+        {
+            logger.LogCritical("Some log");
+        }
+    }
+
 }
