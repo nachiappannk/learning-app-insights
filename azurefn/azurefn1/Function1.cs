@@ -1,34 +1,22 @@
-using Microsoft.ApplicationInsights;
-using Microsoft.ApplicationInsights.DataContracts;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Threading.Tasks;
 
-namespace azurefn
+namespace azurefn1
 {
-    public class Function1
+    public static class Function1
     {
-        private readonly TelemetryClient telemetryClient;
-
-        public Function1(TelemetryClient telemetryClient)
-        {
-            this.telemetryClient = telemetryClient;
-        }
-
-        [Function("Function1")]
-        public async Task<HttpResponseData> Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", "post")] HttpRequestData req,
+        [Function("Function1112")]
+        public static HttpResponseData Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", "post")] HttpRequestData req,
             FunctionContext executionContext)
         {
-
-
-
-
             var logger = executionContext.GetLogger("Function1");
+            logger.LogInformation("C# HTTP trigger function processed a request.");
+
             logger.LogInformation("C# HTTP trigger function processed a request. log");
             logger.LogWarning($"## The binding data keys are {string.Join(", ", executionContext.BindingContext.BindingData.Keys.ToList())}");
             logger.LogWarning($"## executionContext.FunctionDefinition.EntryPoint : {executionContext.FunctionDefinition.EntryPoint}");
@@ -43,31 +31,19 @@ namespace azurefn
             logger.LogWarning($"## executionContext.TraceContext.TraceParent: {executionContext.TraceContext.TraceParent}");
             logger.LogWarning($"## executionContext.TraceContext.TraceState: {executionContext.TraceContext.TraceState}");
 
-            //sending traceparent value as 00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-00 produced an empty string for local
-            //sending tracestate value as congo=congosSecondPosition,rojo=rojosFirstPosition produced an empty string for local
-
-            HttpClient client = new HttpClient();
-            var response1 = await client.GetAsync("https://google.com/");
-            DependencyTelemetry dependencyTelemetry = new DependencyTelemetry();
-            telemetryClient.TrackDependency("NachiHttpClient", "NachiGoogle", new System.DateTimeOffset(System.DateTime.Now), new System.TimeSpan(0, 0, 0, 0, 10), true);
-            //todo modify this
-
-            Random rnd = new Random();
-            var randNumber = rnd.Next(0, 100);
-            if (randNumber < 12)
+            try
             {
-                throw new ApplicationException("some application exception");
-            }
-            if (randNumber < 20)
-            {
-                throw new Exception("some exception");
-            }
+                throw new Exception("some random exception");
 
+            } catch (Exception e)
+            {
+                logger.LogError(e, "This is a random failure");
+            }
 
             var response = req.CreateResponse(HttpStatusCode.OK);
             response.Headers.Add("Content-Type", "text/plain; charset=utf-8");
 
-            response.WriteString($"Welcome to Azure Functions! {response1.StatusCode}");
+            response.WriteString("Welcome to Azure Functions!");
 
             return response;
         }
