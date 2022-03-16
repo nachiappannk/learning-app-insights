@@ -20,6 +20,9 @@ namespace azurefn
             this.telemetryClient = telemetryClient;
         }
 
+
+
+
         [Function("Function1")]
         public async Task<HttpResponseData> Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", "post")] HttpRequestData req,
             FunctionContext executionContext)
